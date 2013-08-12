@@ -3,26 +3,9 @@
 import os, sys, re
 
 from gwutils import *
+from xwhen import *
 
 COMMANDS = ['add', 'rm']
-
-class AddWhen:
-    def __init__(self, filename):
-        self.filename = filename
-
-    def do(self):
-        res = runCmd("git log --diff-filter=A -- %s" % self.filename)
-        print res[0]
-        #print res[1]
-
-class RemoveWhen:
-    def __init__(self, filename):
-        self.filename = filename
-
-    def do(self):
-        res = runCmd("git log --diff-filter=D -- %s" % self.filename)
-        print res[0]
-        #print res[1]
 
 def showHelp():
     print "USAGE:"
@@ -47,8 +30,8 @@ def parseArgs(argv):
             return RemoveWhen(argv[0])
 
 try:
-    worker = parseArgs(sys.argv[1:])
-    worker.do()
+    xwhen = parseArgs(sys.argv[1:])
+    xwhen.run()
     sys.exit(0)
 except ParseError, e:
     print "gitwhen: %s" % e.args[0]
