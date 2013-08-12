@@ -5,7 +5,7 @@ import os, sys, re
 from gwutils import *
 from xwhen import *
 
-COMMANDS = ['add', 'rm']
+COMMANDS = ['add', 'rm', 'msg']
 
 def showHelp():
     print "USAGE:"
@@ -22,12 +22,20 @@ def parseArgs(argv):
     if cmd in ['add', 'rm']:
         argv = argv[1:]
         if len(argv) != 1:
-            raise FormatError("Format: gitwhen %s <filename>" %cmd)
+            raise FormatError("Format: gitwhen %s <filename>" % cmd)
 
         if cmd == 'add':
             return AddWhen(argv[0])
         elif cmd == 'rm':
             return RemoveWhen(argv[0])
+
+    if cmd in ['msg']:
+        argv = argv[1:]
+        if len(argv) < 1:
+            raise FormatError("Format: gitwhen %s <msg>" % cmd)
+        
+        if cmd == 'msg':
+            return MsgWhen(' '.join(argv).strip())
 
 try:
     xwhen = parseArgs(sys.argv[1:])

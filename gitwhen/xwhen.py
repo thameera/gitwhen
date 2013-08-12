@@ -23,3 +23,8 @@ class RemoveWhen(XWhen):
         res = runCmd("git log --diff-filter=D -- %s" % self.args)
         print res[0]
 
+class MsgWhen(XWhen):
+    def run(self):
+        res = runCmd("git log --grep='%s'" % self.args)
+        print res[0]
+
